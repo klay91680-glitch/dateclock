@@ -1,0 +1,454 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxury Golden Clock</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 50% 40%, #49344f 0%, transparent 65%),
+    linear-gradient(145deg, #211729, #38253e, #131622);
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.clock-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 10px;
+  gap: 0;
+}
+
+/* Stars */
+.stars {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  color: #ffe7a6;
+  opacity: 0;
+  animation: twinkle var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.08;
+    transform: scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.3) rotate(45deg);
+  }
+}
+
+/* Analog clock */
+.wall-clock {
+  width: min(82vw, 335px);
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  padding: 11px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #fff0bd,
+    #b6813c,
+    #ffdfa0,
+    #8f5d29
+  );
+  animation: goldGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes goldGlow {
+  from {
+    box-shadow:
+      0 0 18px #ffc96b55,
+      0 0 40px #ba83ff22;
+  }
+  to {
+    box-shadow:
+      0 0 30px #ffd77899,
+      0 0 65px #e7a9ff44;
+  }
+}
+
+.clock-face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid #9d713e;
+  background: radial-gradient(circle, #fffdf6, #f4e5ca);
+  box-shadow: inset 0 0 20px #b68c5c55;
+}
+
+/* Numbers */
+.number {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  font-weight: bold;
+  color: #60442c;
+  transform: translate(-50%, -50%);
+}
+
+.brand {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+  color: #987447;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+/* Clock hands */
+.hand {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  transform-origin: bottom center;
+  border-radius: 10px;
+  z-index: 5;
+}
+
+.hour {
+  width: 7px;
+  height: 24%;
+  background: #493326;
+}
+
+.minute {
+  width: 4px;
+  height: 33%;
+  background: #a36b36;
+}
+
+.second {
+  width: 2px;
+  height: 37%;
+  background: #d74e52;
+  box-shadow: 0 0 5px #d74e5277;
+}
+
+.center-dot {
+  position: absolute;
+  z-index: 7;
+  width: 15px;
+  height: 15px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid #79552d;
+  border-radius: 50%;
+  background: #d8a94e;
+}
+
+/* Digital clock */
+.digital-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  max-width: 100%;
+  margin-top: 25px;
+  padding: 10px 17px;
+  border: 1px solid #d6a64f;
+  border-radius: 20px;
+  background: rgba(25, 17, 32, 0.86);
+  color: #ffe0a0;
+  font-size: clamp(27px, 8vw, 38px);
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-variant-numeric: tabular-nums;
+  animation: neonPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes neonPulse {
+  from {
+    text-shadow: 0 0 6px #ffca67;
+    box-shadow: 0 0 12px #e5b75c33;
+  }
+  to {
+    text-shadow: 0 0 10px #ffca67, 0 0 24px #ffb52e;
+    box-shadow: 0 0 25px #e5b75c66;
+  }
+}
+
+.time-part {
+  display: inline-block;
+  min-width: 2ch;
+  text-align: center;
+}
+
+.colon {
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.12; }
+}
+
+/* Date under the decorative stars */
+.date-display {
+  margin-top: 20px;
+  color: #ffe3ad;
+  font-size: clamp(10px, 3.1vw, 13px);
+  font-weight: bold;
+  letter-spacing: 1.2px;
+  line-height: 1.8;
+  text-align: center;
+  text-shadow: 0 0 10px #ffca67aa;
+  animation: dateGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes dateGlow {
+  from {
+    opacity: 0.72;
+    text-shadow: 0 0 5px #ffca6733;
+  }
+  to {
+    opacity: 1;
+    text-shadow: 0 0 14px #ffca67bb;
+  }
+}
+
+.sparkles {
+  margin-top: 17px;
+  color: #ffda8a;
+  font-size: 18px;
+  letter-spacing: 12px;
+  text-shadow: 0 0 12px #ffca67;
+  animation: sparkleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes sparkleGlow {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+/* Short screens: fit everything without large empty areas */
+@media (max-height: 750px) {
+  .clock-container {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .wall-clock {
+    width: min(70vw, 280px);
+  }
+
+  .digital-display {
+    margin-top: 16px;
+    padding: 8px 14px;
+  }
+
+  .sparkles {
+    margin-top: 10px;
+  }
+
+  .date-display {
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .wall-clock {
+    width: 82vw;
+  }
+
+  .number {
+    font-size: 21px;
+  }
+
+  .digital-display {
+    padding: 9px 12px;
+    letter-spacing: 1px;
+  }
+
+  .date-display {
+    letter-spacing: 0.7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wall-clock,
+  .digital-display,
+  .colon,
+  .star,
+  .sparkles,
+  .date-display {
+    animation: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="clock-container">
+
+  <!-- Analog clock -->
+  <div class="wall-clock">
+    <div class="clock-face" id="face">
+
+      <div class="brand">✦ TIMELESS ✦</div>
+
+      <div class="hand hour" id="hour"></div>
+      <div class="hand minute" id="minute"></div>
+      <div class="hand second" id="second"></div>
+
+      <div class="center-dot"></div>
+
+    </div>
+  </div>
+
+  <!-- Digital clock -->
+  <div class="digital-display">
+    <span class="time-part" id="digitalHour">9</span>
+    <span class="colon">:</span>
+    <span class="time-part" id="digitalMinute">00</span>
+    <span class="colon">:</span>
+    <span class="time-part" id="digitalSecond">00</span>
+  </div>
+
+  <!-- Decorative stars -->
+  <div class="sparkles">✧ ✦ ✧</div>
+
+  <!-- Date moved to the bottom -->
+  <div class="date-display" id="dateDisplay"></div>
+
+</div>
+
+<script>
+// Create clock numbers
+const face = document.getElementById("face");
+
+for (let i = 1; i <= 12; i++) {
+  const number = document.createElement("div");
+  number.className = "number";
+  number.textContent = i;
+
+  const angle = i * 30 * Math.PI / 180;
+  const radius = 40;
+
+  number.style.left =
+    (50 + radius * Math.sin(angle)) + "%";
+
+  number.style.top =
+    (50 - radius * Math.cos(angle)) + "%";
+
+  face.appendChild(number);
+}
+
+// Create twinkling stars
+const stars = document.getElementById("stars");
+
+for (let i = 0; i < 40; i++) {
+  const star = document.createElement("span");
+
+  star.className = "star";
+  star.textContent = Math.random() > 0.5 ? "✦" : "·";
+
+  star.style.left = Math.random() * 100 + "%";
+  star.style.top = Math.random() * 100 + "%";
+
+  star.style.setProperty(
+    "--duration",
+    (2 + Math.random() * 4) + "s"
+  );
+
+  star.style.setProperty(
+    "--delay",
+    (Math.random() * 5) + "s"
+  );
+
+  star.style.fontSize =
+    (8 + Math.random() * 12) + "px";
+
+  stars.appendChild(star);
+}
+
+// Update clock and date
+function updateClock() {
+  const now = new Date();
+
+  const h = now.getHours();
+  const m = now.getMinutes();
+  const s = now.getSeconds();
+  const ms = now.getMilliseconds();
+
+  // Analog hands
+  document.getElementById("hour").style.transform =
+    `translateX(-50%) rotate(${(h % 12) * 30 + m * 0.5}deg)`;
+
+  document.getElementById("minute").style.transform =
+    `translateX(-50%) rotate(${m * 6 + s * 0.1}deg)`;
+
+  document.getElementById("second").style.transform =
+    `translateX(-50%) rotate(${s * 6 + ms * 0.006}deg)`;
+
+  // Digital time
+  document.getElementById("digitalHour").textContent =
+    h % 12 || 12;
+
+  document.getElementById("digitalMinute").textContent =
+    String(m).padStart(2, "0");
+
+  document.getElementById("digitalSecond").textContent =
+    String(s).padStart(2, "0");
+
+  // Current date
+  const dateOptions = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  };
+
+  document.getElementById("dateDisplay").textContent =
+    now.toLocaleDateString("en-US", dateOptions).toUpperCase();
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+
+</body>
+</html>
